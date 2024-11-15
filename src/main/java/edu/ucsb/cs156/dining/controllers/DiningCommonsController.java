@@ -52,7 +52,7 @@ public class DiningCommonsController extends ApiController {
      * @param code code of the diningcommons
      * @return a single diningcommons
      */
-    @Operation(summary= "Get a single commons")
+    @Operation(summary= "Get a single dining commons")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("")
     public DiningCommons getById(
@@ -74,7 +74,7 @@ public class DiningCommonsController extends ApiController {
      * @param longitude logitude of the commons
      * @return the save diningcommons
      */
-    @Operation(summary= "Create a new commons")
+    @Operation(summary= "Create a new dining commons")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
     public DiningCommons postCommons(
@@ -125,7 +125,7 @@ public class DiningCommonsController extends ApiController {
      * @param incoming the new commons contents
      * @return the updated commons object
      */
-    @Operation(summary= "Update a single commons")
+    @Operation(summary= "Update a single dining commons")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("")
     public DiningCommons updateCommons(
