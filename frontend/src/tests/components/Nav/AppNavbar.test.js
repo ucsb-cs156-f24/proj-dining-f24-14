@@ -140,7 +140,7 @@ describe("AppNavbar tests", () => {
     expect(screen.queryByTestId(/AppNavbarLocalhost/i)).toBeNull();
   });
 
-  test("renders the placeholder link correctly", async () => {
+  test("renders the ucsbdates link correctly", async () => {
     const currentUser = currentUserFixtures.userOnly;
     const systemInfo = systemInfoFixtures.showingBoth;
 
@@ -158,13 +158,37 @@ describe("AppNavbar tests", () => {
       </QueryClientProvider>,
     );
 
-    await screen.findByText("Placeholder");
-    const link = screen.getByText("Placeholder");
+    await screen.findByText("UCSB Dates");
+    const link = screen.getByText("UCSB Dates");
     expect(link).toBeInTheDocument();
-    expect(link.getAttribute("href")).toBe("/placeholder");
+    expect(link.getAttribute("href")).toBe("/ucsbdates");
   });
 
-  test("Placeholder link does NOT show when not logged in", async () => {
+  test("renders the restaurants link correctly", async () => {
+    const currentUser = currentUserFixtures.userOnly;
+    const systemInfo = systemInfoFixtures.showingBoth;
+
+    const doLogin = jest.fn();
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter>
+          <AppNavbar
+            currentUser={currentUser}
+            systemInfo={systemInfo}
+            doLogin={doLogin}
+          />
+        </MemoryRouter>
+      </QueryClientProvider>,
+    );
+
+    await screen.findByText("Restaurants");
+    const link = screen.getByText("Restaurants");
+    expect(link).toBeInTheDocument();
+    expect(link.getAttribute("href")).toBe("/restaurants");
+  });
+
+  test("Restaurant and UCSBDates links do NOT show when not logged in", async () => {
     const currentUser = null;
     const systemInfo = systemInfoFixtures.showingBoth;
     const doLogin = jest.fn();
@@ -181,7 +205,8 @@ describe("AppNavbar tests", () => {
       </QueryClientProvider>,
     );
 
-    expect(screen.queryByText("Placeholder")).not.toBeInTheDocument();
+    expect(screen.queryByText("Restaurants")).not.toBeInTheDocument();
+    expect(screen.queryByText("UCSBDates")).not.toBeInTheDocument();
   });
 
   test("when oauthlogin undefined, default value is used", async () => {
