@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f24/proj-dining-f24-14
 owner: ucsb-cs156-f24
 repo_name: proj-dining-f24-14
-pull_requests: [{"author":{"id":"MDQ6VXNlcjExMTkwMTc=","is_bot":false,"login":"pconrad","name":"Phill Conrad"},"headRefName":"vala-delete-restaurants-ucsbdates","number":38,"title":"Vala delete restaurants ucsbdates","url":"https://github.com/ucsb-cs156-f24/proj-dining-f24-14/pull/38"},{"author":{"id":"MDQ6VXNlcjY2MjE4ODE3","is_bot":false,"login":"oviyaseeniraj","name":""},"headRefName":"create_dining_commons","number":27,"title":"Created Dining Commons Base - Sets up Entity, Repository, and Controller for DiningCommons","url":"https://github.com/ucsb-cs156-f24/proj-dining-f24-14/pull/27"}]
+pull_requests: [{"author":{"id":"MDQ6VXNlcjY2MjE4ODE3","is_bot":false,"login":"oviyaseeniraj","name":""},"headRefName":"create_dining_commons","number":27,"title":"Created Dining Commons Base - Sets up Entity, Repository, and Controller for DiningCommons","url":"https://github.com/ucsb-cs156-f24/proj-dining-f24-14/pull/27"}]
