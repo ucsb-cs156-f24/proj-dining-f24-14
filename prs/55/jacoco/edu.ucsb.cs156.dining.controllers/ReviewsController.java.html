@@ -67,9 +67,9 @@ import jakarta.validation.Valid;
         @Parameter(name=&quot;student_id&quot;) @RequestParam int student_id,
         @Parameter(name=&quot;item_id&quot;) @RequestParam String item_id,
         @Parameter(name=&quot;date_served&quot;) @RequestParam String date_served,
-        @Parameter(name=&quot;status&quot;) @RequestParam String status ,
-        @Parameter(name=&quot;user_id&quot;) @RequestParam String user_id,
-        @Parameter(name=&quot;moderator_comments&quot;) @RequestParam String moderator_comments,
+        @Parameter(name=&quot;status&quot;) @RequestParam(required=false) String status,
+        @Parameter(name=&quot;user_id&quot;) @RequestParam(required=false) String user_id,
+        @Parameter(name=&quot;moderator_comments&quot;) @RequestParam(required=false) String moderator_comments,
         @Parameter(name=&quot;created_date&quot;) @RequestParam String created_date,
         @Parameter(name=&quot;last_edited_date&quot;) @RequestParam String last_edited_date
         )
