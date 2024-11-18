@@ -39,7 +39,7 @@ import jakarta.validation.Valid;
      * THis method returns a list of all diningcommons.
      * @return a list of all diningcommons
      */
-    @Operation(summary= &quot;List all ucsb dining commons&quot;)
+    @Operation(summary= &quot;List all dining commons&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
     @GetMapping(&quot;/all&quot;)
     public Iterable&lt;DiningCommons&gt; allCommonss() {
@@ -52,7 +52,7 @@ import jakarta.validation.Valid;
      * @param code code of the diningcommons
      * @return a single diningcommons
      */
-    @Operation(summary= &quot;Get a single commons&quot;)
+    @Operation(summary= &quot;Get a single common&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
     @GetMapping(&quot;&quot;)
     public DiningCommons getById(
@@ -74,7 +74,7 @@ import jakarta.validation.Valid;
      * @param longitude logitude of the commons
      * @return the save diningcommons
      */
-    @Operation(summary= &quot;Create a new commons&quot;)
+    @Operation(summary= &quot;Create a new common&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @PostMapping(&quot;/post&quot;)
     public DiningCommons postCommons(
@@ -125,7 +125,7 @@ import jakarta.validation.Valid;
      * @param incoming the new commons contents
      * @return the updated commons object
      */
-    @Operation(summary= &quot;Update a single commons&quot;)
+    @Operation(summary= &quot;Update a single common&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @PutMapping(&quot;&quot;)
     public DiningCommons updateCommons(
