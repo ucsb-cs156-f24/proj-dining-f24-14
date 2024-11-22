@@ -146,8 +146,7 @@
 <a name='L81'></a><a href='#L81'>81</a>
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
-<a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L84'></a><a href='#L84'>84</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -156,28 +155,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -210,8 +213,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -228,9 +229,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from "react";
 import OurTable, { ButtonColumn } from "main/components/OurTable";
 &nbsp;
@@ -241,7 +239,11 @@ import {
 } from "main/utils/MyReviewsUtils";
 import { useNavigate } from "react-router-dom";
 &nbsp;
-export default function MyReviewsTable({ reviews, moderatorOptions=false, deleteColumn=false }) {
+export default function MyReviewsTable({
+  reviews,
+  moderatorOptions = false,
+  deleteColumn = false,
+}) {
   const navigate = useNavigate();
 &nbsp;
   const editCallback = (cell) =&gt; {
@@ -268,12 +270,12 @@ export default function MyReviewsTable({ reviews, moderatorOptions=false, delete
       accessor: "id", // accessor is the "key" in the data
     },
     {
-        Header: "Item",
-        accessor: "item", 
+      Header: "Item",
+      accessor: "item",
     },
     {
-        Header: "Station",
-        accessor: "station", 
+      Header: "Station",
+      accessor: "station",
     },
     {
       Header: "Stars",
@@ -292,37 +294,32 @@ export default function MyReviewsTable({ reviews, moderatorOptions=false, delete
       accessor: "moderatorComments",
     },
   ];
-  
-  columns.push(
-    ButtonColumn("Edit", "primary", editCallback, "MyReviewsTable"),
+&nbsp;
+  columns.push(ButtonColumn("Edit", "primary", editCallback, "MyReviewsTable"));
+  if (deleteColumn) {
+    columns.push(
+      ButtonColumn("Delete", "danger", deleteCallback, "MyReviewsTable"),
     );
-    if (deleteColumn) {
-        columns.push(
-        ButtonColumn("Delete", "danger", deleteCallback, "MyReviewsTable"),
-        );
-    }
-    if (moderatorOptions) {
-        columns.push( 
-            ButtonColumn("Approve", "success", editCallback, "MyReviewsTable"),
-            ButtonColumn("Reject", "danger", editCallback, "MyReviewsTable"),
-        )
-    }
+  }
+  if (moderatorOptions) {
+    columns.push(
+      ButtonColumn("Approve", "success", editCallback, "MyReviewsTable"),
+      ButtonColumn("Reject", "danger", editCallback, "MyReviewsTable"),
+    );
+  }
 &nbsp;
   return (
-    &lt;OurTable
-      data={reviews}
-      columns={columns}
-      testid={"MyReviewsTable"}
-    /&gt;
+    &lt;OurTable data={reviews} columns={columns} testid={"MyReviewsTable"} /&gt;
   );
-}</pre></td></tr></table></pre>
+}
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-11-22T01:41:18.445Z
+                at 2024-11-22T01:49:03.301Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
