@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for pages/Placeholder/PlaceholderIndexPage.js</title>
+    <title>Code coverage report for components/DiningCommons/MealsTable.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">pages/Placeholder</a> PlaceholderIndexPage.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">components/DiningCommons</a> MealsTable.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
@@ -81,7 +81,9 @@
 <a name='L16'></a><a href='#L16'>16</a>
 <a name='L17'></a><a href='#L17'>17</a>
 <a name='L18'></a><a href='#L18'>18</a>
-<a name='L19'></a><a href='#L19'>19</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -90,32 +92,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from "react";
+import { Link } from "react-router-dom";
+import OurTable from "main/components/OurTable";
 &nbsp;
-export default function PlaceholderIndexPage() {
-  // Stryker disable all : placeholder for future implementation
-  return (
-    &lt;BasicLayout&gt;
-      &lt;div className="pt-2"&gt;
-        &lt;h1&gt;Index page not yet implemented&lt;/h1&gt;
-        &lt;p&gt;
-          &lt;a href="/placeholder/create"&gt;Create&lt;/a&gt;
-        &lt;/p&gt;
-        &lt;p&gt;
-          &lt;a href="/placeholder/edit/1"&gt;Edit&lt;/a&gt;
-        &lt;/p&gt;
-      &lt;/div&gt;
-    &lt;/BasicLayout&gt;
-  );
+export default function MealsTable({ mealsData, dateTime, diningCommonsCode }) {
+  const columns = [
+    {
+      Header: "Meal",
+      accessor: "name",
+      Cell: ({ value }) =&gt; (
+        &lt;Link to={`/diningcommons/${dateTime}/${diningCommonsCode}/${value}`}&gt;
+          {value}
+        &lt;/Link&gt;
+      ),
+    },
+  ];
+&nbsp;
+  return &lt;OurTable data={mealsData} columns={columns} testid={"MealsTable"} /&gt;;
 }
 &nbsp;</pre></td></tr></table></pre>
 
