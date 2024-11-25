@@ -15,18 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import io.swagger.v3.oas.annotations.Parameter;
 
+import org.springframework.web.bind.annotation.PathVariable;
+import io.swagger.v3.oas.annotations.Parameter;
+
 @RestController
 @RequestMapping(&quot;/api/diningcommons&quot;)
-<span class="fc" id="L20">public class DiningCommonsController {</span>
+<span class="fc" id="L23">public class DiningCommonsController {</span>
 
   @Autowired DiningCommonsService diningCommonsService;
 
   @GetMapping(value = &quot;/all&quot;, produces = &quot;application/json&quot;)
   public ResponseEntity&lt;String&gt; getAllDiningCommons() throws Exception {
 
-<span class="fc" id="L27">    String body = diningCommonsService.getDiningCommonsJSON();</span>
+<span class="fc" id="L30">    String body = diningCommonsService.getDiningCommonsJSON();</span>
 
-<span class="fc" id="L29">    return ResponseEntity.ok().body(body);</span>
+<span class="fc" id="L32">    return ResponseEntity.ok().body(body);</span>
   }
 
   @GetMapping(value = &quot;/{date-time}/{dining-commons-code}&quot;, produces = &quot;application/json&quot;)
@@ -34,9 +37,9 @@ import io.swagger.v3.oas.annotations.Parameter;
     @Parameter(name = &quot;date-time&quot;, required = true) @PathVariable(&quot;date-time&quot;) LocalDateTime date_time,
     @Parameter(name = &quot;dining-commons-code&quot;, required = true) @PathVariable(&quot;dining-commons-code&quot;) String dining_commons_code) throws Exception {
         
-<span class="fc" id="L37">        String body = diningCommonsService.getMealsByDateJSON(date_time, dining_commons_code);</span>
+<span class="fc" id="L40">        String body = diningCommonsService.getMealsByDateJSON(date_time, dining_commons_code);</span>
 
-<span class="fc" id="L39">        return ResponseEntity.ok().body(body);</span>
+<span class="fc" id="L42">        return ResponseEntity.ok().body(body);</span>
   }
 
   @GetMapping(value = &quot;/{date-time}/{dining-commons-code}/{meal}&quot;, produces = &quot;application/json&quot;)
@@ -45,9 +48,9 @@ import io.swagger.v3.oas.annotations.Parameter;
     @Parameter(name = &quot;dining-commons-code&quot;, required = true) @PathVariable(&quot;dining-commons-code&quot;) String dining_commons_code,
     @Parameter(name = &quot;meal&quot;, required = true) @PathVariable(&quot;meal&quot;) String meal) throws Exception {
         
-<span class="fc" id="L48">        String body = diningCommonsService.getMenuItemsByMealAndDate(date_time, dining_commons_code, meal);</span>
+<span class="fc" id="L51">        String body = diningCommonsService.getMenuItemsByMealAndDate(date_time, dining_commons_code, meal);</span>
 
-<span class="fc" id="L50">        return ResponseEntity.ok().body(body);</span>
+<span class="fc" id="L53">        return ResponseEntity.ok().body(body);</span>
   }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
