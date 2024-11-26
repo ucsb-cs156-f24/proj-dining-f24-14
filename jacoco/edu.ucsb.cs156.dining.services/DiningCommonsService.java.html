@@ -105,5 +105,46 @@ public class DiningCommonsService {
 <span class="fc" id="L105">    log.info(&quot;json: {} contentType: {} statusCode: {}&quot;, retVal, contentType, statusCode);</span>
 <span class="fc" id="L106">    return retVal;</span>
   }
+
+
+  /**
+   * Get the meals for a specific dining commons by date
+   * @param meal
+   * @param date
+   * @param diningCommonsCode
+   * @return meals by date by dining common
+   * @throws Exception
+   */
+  public String getMenuItemsByMealAndDate(LocalDateTime date, String diningCommonsCode, String meal) throws Exception {
+
+    // set headers for api requests
+<span class="fc" id="L121">    HttpHeaders headers = new HttpHeaders();</span>
+<span class="fc" id="L122">    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));</span>
+<span class="fc" id="L123">    headers.setContentType(MediaType.APPLICATION_JSON);</span>
+<span class="fc" id="L124">    headers.set(&quot;ucsb-api-version&quot;, &quot;1.0&quot;);</span>
+<span class="fc" id="L125">    headers.set(&quot;ucsb-api-key&quot;, this.apiKey);</span>
+<span class="fc" id="L126">    HttpEntity&lt;String&gt; entity = new HttpEntity&lt;&gt;(&quot;body&quot;, headers);</span>
+
+    // set the date in the format that the api expects
+<span class="fc" id="L129">    String formattedDate = date.toString();</span>
+<span class="fc" id="L130">    log.info(&quot;formattedDate: {}&quot;, formattedDate);</span>
+
+    // set the url for the api request e.g. (https://api.ucsb.edu/dining/menu/v1/2021-02-10/ortega/lunch)
+<span class="fc" id="L133">    String url = MEALS_BY_DATE_ENDPOINT + date.toString() + &quot;/&quot; + diningCommonsCode + &quot;/&quot; + meal;</span>
+
+
+    // get the information from request
+<span class="fc" id="L137">    String retVal = &quot;&quot;;</span>
+<span class="fc" id="L138">    MediaType contentType = null;</span>
+<span class="fc" id="L139">    HttpStatus statusCode = null;</span>
+
+<span class="fc" id="L141">    ResponseEntity&lt;String&gt; re = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);</span>
+<span class="fc" id="L142">    contentType = re.getHeaders().getContentType();</span>
+<span class="fc" id="L143">    statusCode = (HttpStatus) re.getStatusCode();</span>
+<span class="fc" id="L144">    retVal = re.getBody();</span>
+
+<span class="fc" id="L146">    log.info(&quot;json: {} contentType: {} statusCode: {}&quot;, retVal, contentType, statusCode);</span>
+<span class="fc" id="L147">    return retVal;</span>
+  }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
