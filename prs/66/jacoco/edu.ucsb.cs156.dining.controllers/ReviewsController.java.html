@@ -5,6 +5,7 @@ import edu.ucsb.cs156.dining.entities.Reviews;
 import edu.ucsb.cs156.dining.models.CurrentUser;
 import edu.ucsb.cs156.dining.errors.EntityNotFoundException;
 import edu.ucsb.cs156.dining.repositories.ReviewsRepository;
+//import edu.ucsb.cs156.dining.repositories.MenuItemRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -39,11 +40,14 @@ import jakarta.validation.Valid;
 @Tag(name = &quot;Reviews&quot;)
 @RequestMapping(&quot;/api/reviews&quot;)
 @RestController
-<span class="fc" id="L42">@Slf4j</span>
-<span class="fc" id="L43">public class ReviewsController extends ApiController {</span>
+<span class="fc" id="L43">@Slf4j</span>
+<span class="fc" id="L44">public class ReviewsController extends ApiController {</span>
 
     @Autowired
     ReviewsRepository reviewsRepository;
+
+    // @Autowired
+    // MenuItemRepository menuItemRepository;
 
     /**
      * THis method returns a list of all reviews.
@@ -53,15 +57,14 @@ import jakarta.validation.Valid;
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @GetMapping(&quot;/all&quot;)
     public Iterable&lt;Reviews&gt; allReviews() {
-<span class="fc" id="L56">        Iterable&lt;Reviews&gt; reviews = reviewsRepository.findAll();</span>
-<span class="fc" id="L57">        return reviews;</span>
+<span class="fc" id="L60">        Iterable&lt;Reviews&gt; reviews = reviewsRepository.findAll();</span>
+<span class="fc" id="L61">        return reviews;</span>
     }
 
    /**
      * This method creates a new review. Accessible only to users with the role &quot;ROLE_ADMIN&quot;.
      * @param item_id itemID of the review
      * @param date_served date served 
-     * @param status status of the review
      * @return the save review
      */
     @Operation(summary= &quot;Create a new review&quot;)
@@ -69,27 +72,30 @@ import jakarta.validation.Valid;
     @PostMapping(&quot;/post&quot;)
     public Reviews postReview(
         @Parameter(name=&quot;item_id&quot;) @RequestParam int item_id,
-        @Parameter(name=&quot;date_served&quot;) @RequestParam String date_served,
-        @Parameter(name=&quot;status&quot;) @RequestParam(required=false) String status
+        @Parameter(name=&quot;date_served&quot;) @RequestParam String date_served
         ) 
         {
 
-<span class="fc" id="L77">        Reviews reviews = new Reviews();</span>
-<span class="fc" id="L78">        CurrentUser user = getCurrentUser();</span>
+        // MenuItem menuItem = menuItemRepository.findById((long)item_id)
+        // .orElseThrow(() -&gt; new ResponseStatusException(
+        //         HttpStatus.NOT_FOUND, &quot;No MenuItem with itemId: &quot; + item_id + &quot; found&quot;));
+
+<span class="fc" id="L83">        Reviews reviews = new Reviews();</span>
+<span class="fc" id="L84">        CurrentUser user = getCurrentUser();</span>
         
-<span class="fc" id="L80">        reviews.setStudent_id((int)user.getUser().getId());</span>
-<span class="fc" id="L81">        reviews.setItem_id(item_id);</span>
-<span class="fc" id="L82">        reviews.setDate_served(date_served);</span>
-<span class="fc bfc" id="L83" title="All 2 branches covered.">        reviews.setStatus(status != null ? status : &quot;Awaiting Moderation&quot;);</span>
-<span class="fc" id="L84">        reviews.setUserId(user.getUser().getId());</span>
+<span class="fc" id="L86">        reviews.setStudent_id((int)user.getUser().getId());</span>
+<span class="fc" id="L87">        reviews.setItem_id(item_id);</span>
+<span class="fc" id="L88">        reviews.setDate_served(date_served);</span>
+        //reviews.setStatus(status != null ? status : &quot;Awaiting Moderation&quot;);
+<span class="fc" id="L90">        reviews.setStatus(&quot;Awaiting Moderation&quot;);</span>
+<span class="fc" id="L91">        reviews.setUserId(user.getUser().getId());</span>
 
-<span class="fc" id="L86">        Reviews savedReviews = reviewsRepository.save(reviews);</span>
+<span class="fc" id="L93">        Reviews savedReviews = reviewsRepository.save(reviews);</span>
 
-<span class="fc" id="L88">        return savedReviews; </span>
+<span class="fc" id="L95">        return savedReviews; </span>
     }
-     
-
-        /**
+    
+    /**
          * This method returns all reviews from current user.
          * @return all reviews from current user.
          */
@@ -97,12 +103,10 @@ import jakarta.validation.Valid;
         @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
         @GetMapping(&quot;&quot;)
         public Iterable&lt;Reviews&gt; getByCurrUserId() {
-<span class="fc" id="L100">            CurrentUser user = getCurrentUser();</span>
-<span class="fc" id="L101">            long currUserId = user.getUser().getId();</span>
-
-<span class="fc" id="L103">            Iterable&lt;Reviews&gt; reviews = reviewsRepository.findByUserId(currUserId);</span>
-
-<span class="fc" id="L105">            return reviews;</span>
+<span class="fc" id="L106">            CurrentUser user = getCurrentUser();</span>
+<span class="fc" id="L107">            long currUserId = user.getUser().getId();</span>
+<span class="fc" id="L108">            Iterable&lt;Reviews&gt; reviews = reviewsRepository.findByUserId(currUserId);</span>
+<span class="fc" id="L109">            return reviews;</span>
         }
 
 }
