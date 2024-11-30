@@ -2,10 +2,11 @@
 
 import edu.ucsb.cs156.dining.entities.User;
 import edu.ucsb.cs156.dining.entities.Reviews;
+import edu.ucsb.cs156.dining.entities.MenuItem;
 import edu.ucsb.cs156.dining.models.CurrentUser;
 import edu.ucsb.cs156.dining.errors.EntityNotFoundException;
 import edu.ucsb.cs156.dining.repositories.ReviewsRepository;
-//import edu.ucsb.cs156.dining.repositories.MenuItemRepository;
+import edu.ucsb.cs156.dining.repositories.MenuItemRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +28,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import jakarta.validation.Valid;
 
@@ -40,14 +50,14 @@ import jakarta.validation.Valid;
 @Tag(name = &quot;Reviews&quot;)
 @RequestMapping(&quot;/api/reviews&quot;)
 @RestController
-<span class="fc" id="L43">@Slf4j</span>
-<span class="fc" id="L44">public class ReviewsController extends ApiController {</span>
+<span class="fc" id="L53">@Slf4j</span>
+<span class="fc" id="L54">public class ReviewsController extends ApiController {</span>
 
     @Autowired
     ReviewsRepository reviewsRepository;
 
-    // @Autowired
-    // MenuItemRepository menuItemRepository;
+    @Autowired
+    MenuItemRepository menuItemRepository;
 
     /**
      * THis method returns a list of all reviews.
@@ -57,8 +67,8 @@ import jakarta.validation.Valid;
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @GetMapping(&quot;/all&quot;)
     public Iterable&lt;Reviews&gt; allReviews() {
-<span class="fc" id="L60">        Iterable&lt;Reviews&gt; reviews = reviewsRepository.findAll();</span>
-<span class="fc" id="L61">        return reviews;</span>
+<span class="fc" id="L70">        Iterable&lt;Reviews&gt; reviews = reviewsRepository.findAll();</span>
+<span class="fc" id="L71">        return reviews;</span>
     }
 
    /**
@@ -72,27 +82,34 @@ import jakarta.validation.Valid;
     @PostMapping(&quot;/post&quot;)
     public Reviews postReview(
         @Parameter(name=&quot;item_id&quot;) @RequestParam int item_id,
-        @Parameter(name=&quot;date_served&quot;) @RequestParam String date_served
-        ) 
+        @Parameter(name=&quot;rating&quot;) @RequestParam int rating,
+        @Parameter(name=&quot;comments&quot;) @RequestParam String comments,
+        @Parameter(name=&quot;date_served&quot;, description=&quot;date (in iso format, e.g. 2024-08-24T11:11:11; see https://en.wikipedia.org/wiki/ISO_8601)&quot;) @RequestParam(&quot;date_served&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date_served)
+            throws JsonProcessingException
+
         {
 
-        // MenuItem menuItem = menuItemRepository.findById((long)item_id)
-        // .orElseThrow(() -&gt; new ResponseStatusException(
-        //         HttpStatus.NOT_FOUND, &quot;No MenuItem with itemId: &quot; + item_id + &quot; found&quot;));
+<span class="fc bfc" id="L92" title="All 4 branches covered.">        if (rating &lt;= 0 || rating &gt;= 6) {</span>
+<span class="fc" id="L93">            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Rating must be between 0 and 5&quot;);</span>
+        }
 
-<span class="fc" id="L83">        Reviews reviews = new Reviews();</span>
-<span class="fc" id="L84">        CurrentUser user = getCurrentUser();</span>
+<span class="fc" id="L96">        MenuItem menuItem = menuItemRepository.findById((long)item_id)</span>
+<span class="fc" id="L97">        .orElseThrow(() -&gt; new ResponseStatusException(</span>
+                HttpStatus.NOT_FOUND, &quot;No MenuItem with itemId: &quot; + item_id + &quot; found&quot;));
+
+<span class="fc" id="L100">        Reviews reviews = new Reviews();</span>
+<span class="fc" id="L101">        CurrentUser user = getCurrentUser();</span>
         
-<span class="fc" id="L86">        reviews.setStudent_id((int)user.getUser().getId());</span>
-<span class="fc" id="L87">        reviews.setItem_id(item_id);</span>
-<span class="fc" id="L88">        reviews.setDate_served(date_served);</span>
-        //reviews.setStatus(status != null ? status : &quot;Awaiting Moderation&quot;);
-<span class="fc" id="L90">        reviews.setStatus(&quot;Awaiting Moderation&quot;);</span>
-<span class="fc" id="L91">        reviews.setUserId(user.getUser().getId());</span>
+<span class="fc" id="L103">        reviews.setItem_id(item_id);</span>
+<span class="fc" id="L104">        reviews.setRating(rating);</span>
+<span class="fc" id="L105">        reviews.setComments(comments);</span>
+<span class="fc" id="L106">        reviews.setDate_served(date_served);</span>
+<span class="fc" id="L107">        reviews.setStatus(&quot;Awaiting Moderation&quot;);</span>
+<span class="fc" id="L108">        reviews.setUserId(user.getUser().getId());</span>
 
-<span class="fc" id="L93">        Reviews savedReviews = reviewsRepository.save(reviews);</span>
+<span class="fc" id="L110">        Reviews savedReviews = reviewsRepository.save(reviews);</span>
 
-<span class="fc" id="L95">        return savedReviews; </span>
+<span class="fc" id="L112">        return savedReviews; </span>
     }
     
     /**
@@ -103,10 +120,10 @@ import jakarta.validation.Valid;
         @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
         @GetMapping(&quot;&quot;)
         public Iterable&lt;Reviews&gt; getByCurrUserId() {
-<span class="fc" id="L106">            CurrentUser user = getCurrentUser();</span>
-<span class="fc" id="L107">            long currUserId = user.getUser().getId();</span>
-<span class="fc" id="L108">            Iterable&lt;Reviews&gt; reviews = reviewsRepository.findByUserId(currUserId);</span>
-<span class="fc" id="L109">            return reviews;</span>
+<span class="fc" id="L123">            CurrentUser user = getCurrentUser();</span>
+<span class="fc" id="L124">            long currUserId = user.getUser().getId();</span>
+<span class="fc" id="L125">            Iterable&lt;Reviews&gt; reviews = reviewsRepository.findByUserId(currUserId);</span>
+<span class="fc" id="L126">            return reviews;</span>
         }
 
 }
