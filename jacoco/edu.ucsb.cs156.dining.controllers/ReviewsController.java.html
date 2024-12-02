@@ -89,7 +89,7 @@ import jakarta.validation.Valid;
 
         {
 
-<span class="pc bpc" id="L92" title="1 of 4 branches missed.">        if (rating &lt; 0 || rating &gt; 5) {</span>
+<span class="fc bfc" id="L92" title="All 4 branches covered.">        if (rating &lt;= 0 || rating &gt;= 6) {</span>
 <span class="fc" id="L93">            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Rating must be between 0 and 5&quot;);</span>
         }
 
@@ -112,19 +112,6 @@ import jakarta.validation.Valid;
 <span class="fc" id="L112">        return savedReviews; </span>
     }
     
-    /**
-         * This method returns all reviews from current user.
-         * @return all reviews from current user.
-         */
-        @Operation(summary = &quot;Get reviews from an user&quot;)
-        @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
-        @GetMapping(&quot;&quot;)
-        public Iterable&lt;Reviews&gt; getByCurrUserId() {
-<span class="fc" id="L123">            CurrentUser user = getCurrentUser();</span>
-<span class="fc" id="L124">            long currUserId = user.getUser().getId();</span>
-<span class="fc" id="L125">            Iterable&lt;Reviews&gt; reviews = reviewsRepository.findByUserId(currUserId);</span>
-<span class="fc" id="L126">            return reviews;</span>
-        }
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
