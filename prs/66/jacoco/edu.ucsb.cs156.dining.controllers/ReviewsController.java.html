@@ -32,7 +32,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -50,8 +49,8 @@ import jakarta.validation.Valid;
 @Tag(name = &quot;Reviews&quot;)
 @RequestMapping(&quot;/api/reviews&quot;)
 @RestController
-<span class="fc" id="L53">@Slf4j</span>
-<span class="fc" id="L54">public class ReviewsController extends ApiController {</span>
+<span class="fc" id="L52">@Slf4j</span>
+<span class="fc" id="L53">public class ReviewsController extends ApiController {</span>
 
     @Autowired
     ReviewsRepository reviewsRepository;
@@ -67,8 +66,8 @@ import jakarta.validation.Valid;
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @GetMapping(&quot;/all&quot;)
     public Iterable&lt;Reviews&gt; allReviews() {
-<span class="fc" id="L70">        Iterable&lt;Reviews&gt; reviews = reviewsRepository.findAll();</span>
-<span class="fc" id="L71">        return reviews;</span>
+<span class="fc" id="L69">        Iterable&lt;Reviews&gt; reviews = reviewsRepository.findAll();</span>
+<span class="fc" id="L70">        return reviews;</span>
     }
 
    /**
@@ -89,27 +88,27 @@ import jakarta.validation.Valid;
 
         {
 
-<span class="fc bfc" id="L92" title="All 4 branches covered.">        if (rating &lt;= 0 || rating &gt;= 6) {</span>
-<span class="fc" id="L93">            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Rating must be between 0 and 5&quot;);</span>
+<span class="fc bfc" id="L91" title="All 4 branches covered.">        if (rating &lt;= 0 || rating &gt;= 6) {</span>
+<span class="fc" id="L92">            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;Rating must be between 0 and 5&quot;);</span>
         }
 
-<span class="fc" id="L96">        MenuItem menuItem = menuItemRepository.findById((long)item_id)</span>
-<span class="fc" id="L97">        .orElseThrow(() -&gt; new ResponseStatusException(</span>
+<span class="fc" id="L95">        MenuItem menuItem = menuItemRepository.findById((long)item_id)</span>
+<span class="fc" id="L96">        .orElseThrow(() -&gt; new ResponseStatusException(</span>
                 HttpStatus.NOT_FOUND, &quot;No MenuItem with itemId: &quot; + item_id + &quot; found&quot;));
 
-<span class="fc" id="L100">        Reviews reviews = new Reviews();</span>
-<span class="fc" id="L101">        CurrentUser user = getCurrentUser();</span>
+<span class="fc" id="L99">        Reviews reviews = new Reviews();</span>
+<span class="fc" id="L100">        CurrentUser user = getCurrentUser();</span>
         
-<span class="fc" id="L103">        reviews.setItem_id(item_id);</span>
-<span class="fc" id="L104">        reviews.setRating(rating);</span>
-<span class="fc" id="L105">        reviews.setComments(comments);</span>
-<span class="fc" id="L106">        reviews.setDate_served(date_served);</span>
-<span class="fc" id="L107">        reviews.setStatus(&quot;Awaiting Moderation&quot;);</span>
-<span class="fc" id="L108">        reviews.setUserId(user.getUser().getId());</span>
+<span class="fc" id="L102">        reviews.setItem_id(item_id);</span>
+<span class="fc" id="L103">        reviews.setRating(rating);</span>
+<span class="fc" id="L104">        reviews.setComments(comments);</span>
+<span class="fc" id="L105">        reviews.setDate_served(date_served);</span>
+<span class="fc" id="L106">        reviews.setStatus(&quot;Awaiting Moderation&quot;);</span>
+<span class="fc" id="L107">        reviews.setUserId(user.getUser().getId());</span>
 
-<span class="fc" id="L110">        Reviews savedReviews = reviewsRepository.save(reviews);</span>
+<span class="fc" id="L109">        Reviews savedReviews = reviewsRepository.save(reviews);</span>
 
-<span class="fc" id="L112">        return savedReviews; </span>
+<span class="fc" id="L111">        return savedReviews; </span>
     }
     
     /**
@@ -120,10 +119,10 @@ import jakarta.validation.Valid;
         @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
         @GetMapping(&quot;&quot;)
         public Iterable&lt;Reviews&gt; getByCurrUserId() {
-<span class="fc" id="L123">            CurrentUser user = getCurrentUser();</span>
-<span class="fc" id="L124">            long currUserId = user.getUser().getId();</span>
-<span class="fc" id="L125">            Iterable&lt;Reviews&gt; reviews = reviewsRepository.findByUserId(currUserId);</span>
-<span class="fc" id="L126">            return reviews;</span>
+<span class="fc" id="L122">            CurrentUser user = getCurrentUser();</span>
+<span class="fc" id="L123">            long currUserId = user.getUser().getId();</span>
+<span class="fc" id="L124">            Iterable&lt;Reviews&gt; reviews = reviewsRepository.findByUserId(currUserId);</span>
+<span class="fc" id="L125">            return reviews;</span>
         }
 
 }
